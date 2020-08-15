@@ -4,34 +4,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
+import 'package:upskillindo/models/task.dart';
 import 'package:upskillindo/organisation/organisationHome.dart';
 import 'package:upskillindo/theme.dart';
 import 'package:http/http.dart' as http;
 
-class Task{
-  final String title;
-  final String description;
-  final String skills;
-  final int capacity;
-  final int remainingCapacity;
-  final String organisationId;
-  final List<String> studentIds;
-
-  Task({this.title, this.description, this.skills, this.capacity, this.remainingCapacity, this.organisationId, this.studentIds});
-
-  factory Task.fromJson(Map<String, dynamic> json){
-    return Task(
-      title: json['title'],
-      description: json['description'],
-      skills: json['skills'],
-      capacity: json['capacity'],
-      remainingCapacity: json['remainingCapacity'] ?? 0,
-      organisationId: json['organisationId'] ?? "",
-      studentIds: json["studentIds"] ?? [],
-    );
-  }
-
-}
 
 Future<Task> createTask(Task task) async {
   final http.Response response = await http.post(
