@@ -89,7 +89,8 @@ def YoutubeTopResults(SearchQuery):
         startpos=i.rfind("(")
         link="https://www.youtube.com/watch?v="+str(i[startpos+1:endpos])
         LINKS.append(link)
-        
+        titles.append([i[0:startpos]])
+ 
     return LINKS[0:3],thumbnails[0:3],titles[0:3]
 
 #Youtube Object
