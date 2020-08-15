@@ -130,7 +130,7 @@ def youtube():
             print(check.link)
             final.append((check))
     
-    return jsonify(final)
+    return jsonify([arr1,arr2,arr3])
 
 
 # For finding tasks for students
