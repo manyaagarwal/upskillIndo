@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upskillindo/models/task.dart';
+import 'package:upskillindo/organisation/submission.dart';
 
 
 
@@ -15,16 +16,27 @@ class _AllTaskSubmissionsState extends State<AllTaskSubmissions> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.task.title),
+        title: Text(widget.task != null ? widget.task.title : "Task Title"),
       ),
       body: Column(
         children: <Widget>[
-          ListTile(
-            leading: FlutterLogo(size: 56.0),
-            title: Text('Student Name'),
-            trailing: InkWell(
-              onTap: (){},
-              child: Icon(Icons.star_border),
+          InkWell(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Submission()),
+              );
+            },
+            child: ListTile(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5))
+              ),
+              leading: Icon(Icons.person),
+              title: Text('Jessica Lennon'),
+              trailing: InkWell(
+                onTap: (){},
+                child: Icon(Icons.star_border),
+              ),
             ),
           ),
         ],

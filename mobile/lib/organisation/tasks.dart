@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upskillindo/organisation/allTaskSubmissions.dart';
 
 class OrganisationTasks extends StatefulWidget {
   @override
@@ -41,12 +42,12 @@ class _OrganisationTasksState extends State<OrganisationTasks> with SingleTicker
               ),
               child: InkWell(
                 onTap: (){
-//                  Navigator.push(
-//                      context,
-//                      MaterialPageRoute(builder: (context) =>
-//                          FullTaskDetails()
-//                      )
-//                  );
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>
+                          AllTaskSubmissions()
+                      )
+                  );
                 },
                 child: ListTile(
                   title: Text('Task title'),

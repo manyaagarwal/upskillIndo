@@ -5,8 +5,8 @@ import 'package:upskillindo/theme.dart';
 
 class TasksList extends StatefulWidget {
   TasksList({Key key, this.existingSkills, this.skillsToAcquire}) : super(key:key);
-  final String existingSkills;
-  final String skillsToAcquire;
+  final List<String> existingSkills;
+  final List<String> skillsToAcquire;
   @override
   _TasksListState createState() => _TasksListState();
 }

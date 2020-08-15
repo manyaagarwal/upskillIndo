@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
@@ -13,8 +15,8 @@ class StudentPreferences extends StatefulWidget {
 class _StudentPreferencesState extends State<StudentPreferences> {
   @override
   int _value = 1;
-  String existingSkills = "";
-  String skillsToAcquire = "";
+  List<String> existingSkills = [];
+  List<String> skillsToAcquire = [];
   var _categories = ["Category A", "Category B", "Category C"];
   String _selectedCategory = "Category A";
   Widget build(BuildContext context) {
@@ -77,7 +79,8 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                 },
                 onChanged: (result) {
                   setState(() {
-                    existingSkills = result.toString();
+                    var length = result.length;
+                    existingSkills.add(result[length-1]["name"]);
                   });
                 },
               ),
@@ -100,7 +103,8 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                 },
                 onChanged: (result) {
                   setState(() {
-                    skillsToAcquire = result.toString();
+                    var length = result.length;
+                    skillsToAcquire.add(result[length-1]["name"]);
                   });
                 },
               ),
@@ -110,6 +114,8 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                     borderRadius: BorderRadius.all(Radius.circular(10))
                 ),
                 onPressed: (){
+                  var a = existingSkills[0];
+                  print(a);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => TasksList(existingSkills: existingSkills, skillsToAcquire: skillsToAcquire,)),

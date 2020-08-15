@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upskillindo/organisation/createTask.dart';
 import 'package:upskillindo/organisation/organisationProfile.dart';
 import 'package:upskillindo/organisation/tasks.dart';
 
@@ -41,6 +42,15 @@ class _OrganisationHomePageState extends State<OrganisationHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
         body: _currentPage,
+        floatingActionButton: FloatingActionButton.extended(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreateTask()),
+              );
+            },
+            icon: Icon(Icons.add),
+            label: Text("Add Task")),
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) => changeTab(index),
           currentIndex: _currentIndex,
