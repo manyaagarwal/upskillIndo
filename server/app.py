@@ -45,8 +45,12 @@ def GoogleTopResults(SearchQuery):
 # For Google results
 @app.route("/google", methods=['POST'])
 def google():
-    keyword = request.get_json()
-    print(type(keyword), keyword)
+    body = request.get_json()
+    print("BODYY:", body)
+    keyword = body['skills'] 
+    print("GET YO SKILLS", keyword)
+    keyword = keyword.split(',')
+    print("KEYWORDDD:",type(keyword), keyword)
 
     #edit code
     all_links=[]
@@ -55,8 +59,10 @@ def google():
         arr=GoogleTopResults(i)
         for j in range(len(arr)):
             all_links.append(arr[j])
-
-    return jsonify(all_links)
+    print(all_links)
+    print("Printing responsee")
+    print(jsonify({"links": all_links}))
+    return jsonify({"links": all_links})
 
 
 #For a single search

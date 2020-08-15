@@ -3,16 +3,39 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:upskillindo/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
-Future<Video> fetchVideos(skills) async{
+Future<List<dynamic>> fetchDocs(skills) async {
+  print("HEREEE");
   final response = await http.post(
-      'url',
+    'http://10.0.2.2:5000/google',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'skills': skills
+      'skills': 'python,flutter'
+    }),
+  );
+  if(response.statusCode == 200){
+    Map<String, dynamic> map = json.decode(response.body);
+    List<dynamic> data = map["links"];
+    print("RESPONSEEE:" + data[0]);
+    return data;
+  } else {
+    throw Exception("Failed to load videos from YouTube");
+  }
+}
+
+Future<Video> fetchVideos(skills) async{
+  final response = await http.post(
+      'http://10.0.2.2:5000/youtube',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+
+    },
+    body: jsonEncode(<String, String>{
+      'skills': "python,flutter"
     }),
   );
 
@@ -50,12 +73,23 @@ class FullTaskDetails extends StatefulWidget {
 }
 
 class _FullTaskDetailsState extends State<FullTaskDetails> {
+
   Future<Video> futureVideo;
+  Future<List<dynamic>> futureDocs;
 
   @override
   void initState() {
     super.initState();
-    futureVideo = fetchVideos(widget.skills);
+    futureDocs = fetchDocs(["python"]);
+//    futureVideo = fetchVideos(["python"]);
+  }
+
+  launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url, forceWebView: true);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -104,7 +138,92 @@ class _FullTaskDetailsState extends State<FullTaskDetails> {
 
                   Column(
                     children: <Widget>[
-                      _tabSection(context), //to complex to add futurebuilder here for experiences
+                    DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          child: TabBar(
+                              labelColor: Colors.black,
+                              tabs: [
+                                Tab(text: "Videos"),
+                                Tab(text: "Web Pages"),
+                              ]),
+                        ),
+                        Container(
+                          //Add this to give height
+                          height: MediaQuery.of(context).size.height/2.8,
+                          child: TabBarView(children: [
+                            Scaffold(
+                              body: SingleChildScrollView(
+                                child: Column(
+                                  children: <Widget>[
+                                    Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(10))
+                                      ),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Image(image: NetworkImage("https://www.publicdomainpictures.net/pictures/320000/nahled/background-image.png")),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Text("Video title"),
+                                                RaisedButton.icon(
+                                                  color: MaterialColor(0XFF98BEE0, accentColor),
+                                                  label: Text("Play"),
+                                                  icon: Icon(Icons.play_arrow),
+                                                  onPressed: (){},
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Scaffold(
+                              body:Center(
+                                child: FutureBuilder<List<dynamic>>(
+                                  future: futureDocs,
+                                  builder: (context, snapshot){
+                                    if (snapshot.hasData) {
+                                      return ListView.builder(
+                                        itemCount: snapshot.data.length,
+                                        itemBuilder: (context, index) {
+                                          return Column(
+                                            children: [
+                                              ListTile(
+                                                onTap: (){
+                                                  launchURL(snapshot.data[index]);
+                                                },
+                                                title: Text(snapshot.data[index]),
+                                                leading: Icon(Icons.crop_square),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text("${snapshot.error}");
+                                    }
+                                    return CircularProgressIndicator();
+                                  },
+                                ),
+                              ),
+                            ),
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ),//to complex to add futurebuilder here for experiences
                     ],
                   ),
                   Align(
@@ -130,6 +249,12 @@ class _FullTaskDetailsState extends State<FullTaskDetails> {
 }
 
 Widget _tabSection(BuildContext context) {
+
+  Future<Video> futureVideo;
+  Future<String> futureDocs;
+
+
+
   return DefaultTabController(
     length: 2,
     child: Column(
@@ -183,19 +308,32 @@ Widget _tabSection(BuildContext context) {
             ),
             Scaffold(
               body:SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Card(
-                      child: InkWell(
-                        onTap: (){},//TODO: Send to the website URL,
-                        child: ListTile(
-                          title: Text('Link heading'),
-                          subtitle: Text('Description'),
-                        )
-                      )
-                    ),
-                  ],
+                child: Center(
+                  child: FutureBuilder<String>(
+                    future: futureDocs,
+                    builder: (context, snapshot){
+                      if (snapshot.hasData) {
+                        return Text(snapshot.data);
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  ),
                 ),
+//                child: Column(
+//                  children: <Widget>[
+//                    Card(
+//                      child: InkWell(
+//                        onTap: (){},//TODO: Send to the website URL,
+//                        child: ListTile(
+//                          title: Text('Link heading'),
+//                          subtitle: Text('Description'),
+//                        )
+//                      )
+//                    ),
+//                  ],
+//                ),
               ),
             ),
           ]),

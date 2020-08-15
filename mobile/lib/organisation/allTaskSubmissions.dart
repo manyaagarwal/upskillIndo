@@ -19,7 +19,14 @@ class _AllTaskSubmissionsState extends State<AllTaskSubmissions> {
       ),
       body: Column(
         children: <Widget>[
-          
+          ListTile(
+            leading: FlutterLogo(size: 56.0),
+            title: Text('Student Name'),
+            trailing: InkWell(
+              onTap: (){},
+              child: Icon(Icons.star_border),
+            ),
+          ),
         ],
       )
     );
