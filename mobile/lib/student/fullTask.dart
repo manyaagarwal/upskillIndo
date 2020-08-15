@@ -27,7 +27,7 @@ Future<List<dynamic>> fetchDocs(skills) async {
   }
 }
 
-Future<Video> fetchVideos(skills) async{
+Future<List<dynamic>> fetchVideos(skills) async{
   final response = await http.post(
       'http://10.0.2.2:5000/youtube',
     headers: <String, String>{
@@ -35,13 +35,13 @@ Future<Video> fetchVideos(skills) async{
 
     },
     body: jsonEncode(<String, String>{
-      'skills': "python,flutter"
+      'skills': "python,flutter, html"
     }),
   );
 
   if(response.statusCode == 200){
     print(json.decode(response.body));
-    return Video.fromJson(json.decode(response.body));
+//    return Video.fromJson(json.decode(response.body));
   } else {
     throw Exception("Failed to load videos from YouTube");
   }
@@ -74,14 +74,14 @@ class FullTaskDetails extends StatefulWidget {
 
 class _FullTaskDetailsState extends State<FullTaskDetails> {
 
-  Future<Video> futureVideo;
+  Future<List<dynamic>> futureVideo;
   Future<List<dynamic>> futureDocs;
 
   @override
   void initState() {
     super.initState();
     futureDocs = fetchDocs(["python"]);
-//    futureVideo = fetchVideos(["python"]);
+    futureVideo = fetchVideos(["python"]);
   }
 
   launchURL(String url) async {

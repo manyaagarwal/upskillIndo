@@ -82,6 +82,7 @@ def YoutubeTopResults(SearchQuery):
 
     videos=[]
     thumbnails=[]
+    titles=[]
 
     for search_result in response.get('items', []):
         if search_result['id']['kind'] == 'youtube#video':
@@ -111,7 +112,9 @@ class Youtube:
 # For Youtube results
 @app.route("/youtube", methods=['POST'])
 def youtube():
-    keyword = request.get_json()
+    _dict = request.get_json()
+    keyword = _dict["skills"]
+    keywords = keyword.split(",")
     print(type(keyword), keyword)
 
     #edit code
