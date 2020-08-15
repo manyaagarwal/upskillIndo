@@ -48,7 +48,7 @@ def GoogleTopResults(SearchQuery):
 def google():
     body = request.get_json()
     print("BODYY:", body)
-    keyword = body['skills'] 
+    keyword = body['skills']
     print("GET YO SKILLS", keyword)
     keyword = keyword.split(',')
     print("KEYWORDDD:",type(keyword), keyword)
@@ -97,17 +97,9 @@ def YoutubeTopResults(SearchQuery):
         link="https://www.youtube.com/watch?v="+str(i[startpos+1:endpos])
         LINKS.append(link)
         titles.append([i[0:startpos]])
- 
+
     return LINKS[0:3],thumbnails[0:3],titles[0:3]
 
-#Youtube Object
-class Youtube:  
-    
-    # init method or constructor   
-    def __init__(self, link, thumbnail, title):  
-        self.link = link
-        self.thumbnail=thumbnail
-        self.title=title  
 
 # For Youtube results
 @app.route("/youtube", methods=['POST'])
@@ -123,10 +115,11 @@ def youtube():
     for i in keywords:
         arr1,arr2,arr3=YoutubeTopResults(i)
         for j in range(len(arr1)):
-            check=Youtube(arr1[j],arr2[j],arr3[j])
-            print(check.link)
+            check=[arr1[j],arr2[j],arr3[j]]
+            print(check[0])
+            print(check[2])
             final.append((check))
-    
+
     return jsonify(final)
 
 
