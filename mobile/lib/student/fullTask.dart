@@ -41,6 +41,7 @@ Future<List<dynamic>> fetchVideos(skills) async{
 
   if(response.statusCode == 200){
     print(json.decode(response.body));
+    return (json.decode(response.body));
 //    return Video.fromJson(json.decode(response.body));
   } else {
     throw Exception("Failed to load videos from YouTube");
@@ -153,40 +154,55 @@ class _FullTaskDetailsState extends State<FullTaskDetails> {
                         ),
                         Container(
                           //Add this to give height
-                          height: MediaQuery.of(context).size.height/2.8,
+                          height: MediaQuery.of(context).size.height/2,
                           child: TabBarView(children: [
                             Scaffold(
-                              body: SingleChildScrollView(
-                                child: Column(
-                                  children: <Widget>[
-                                    Card(
-                                      elevation: 5,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(10))
-                                      ),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Image(image: NetworkImage("https://www.publicdomainpictures.net/pictures/320000/nahled/background-image.png")),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: <Widget>[
-                                                Text("Video title"),
-                                                RaisedButton.icon(
-                                                  color: MaterialColor(0XFF98BEE0, accentColor),
-                                                  label: Text("Play"),
-                                                  icon: Icon(Icons.play_arrow),
-                                                  onPressed: (){},
+                              body: FutureBuilder<List<dynamic>>(
+                                future: futureVideo,
+                                builder: (context, snapshot){
+                                  if(snapshot.hasData){
+                                    print(snapshot.data.length);
+                                    return ListView.builder(
+                                        itemCount: snapshot.data.length,
+                                        itemBuilder: (context, index){
+                                          return(
+                                              Card(
+                                                elevation: 5,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.all(Radius.circular(10))
                                                 ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Image(image: NetworkImage("${snapshot.data[index][1]}")),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: <Widget>[
+                                                          Text("${snapshot.data[index][2]}"),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    RaisedButton.icon(
+                                                      color: MaterialColor(0XFF98BEE0, accentColor),
+                                                      label: Text("Play"),
+                                                      icon: Icon(Icons.play_arrow),
+                                                      onPressed: (){
+                                                        launchURL(snapshot.data[index][0]);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                          );
+                                        }
+                                    );
+                                    return Text("has data");
+                                  } else if(snapshot.hasError){
+                                    return Text("{$snapshot.error}");
+                                  }
+                                  return CircularProgressIndicator();
+                                },
                               ),
                             ),
                             Scaffold(

@@ -114,8 +114,6 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                     borderRadius: BorderRadius.all(Radius.circular(10))
                 ),
                 onPressed: (){
-                  var a = existingSkills[0];
-                  print(a);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => TasksList(existingSkills: existingSkills, skillsToAcquire: skillsToAcquire,)),

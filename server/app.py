@@ -127,7 +127,9 @@ def youtube():
 # For finding tasks for students
 @app.route("/api", methods=['POST']) # decorator
 def home(): # route handler function
-    data = request.get_json()
+    _dict = request.get_json()
+    data = _dict["skills"]
+    print(data)
     existing = set(data[0])
     to_acquire = set(data[1])
 

@@ -1,7 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:upskillindo/student/task.dart';
 import 'package:http/http.dart' as http;
 import 'package:upskillindo/theme.dart';
+
+Future<List<dynamic>> fetchTasks(skills) async{
+  final response = await http.post(
+    'http://10.0.2.2:5000/api',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, List<List<String>> >{
+      'skills': skills
+    }),
+  );
+  if(response.statusCode == 200){
+    print(json.decode(response.body));
+  } else {
+    throw Exception("Failed to load data");
+  }
+}
 
 class TasksList extends StatefulWidget {
   TasksList({Key key, this.existingSkills, this.skillsToAcquire}) : super(key:key);
@@ -12,6 +31,16 @@ class TasksList extends StatefulWidget {
 }
 
 class _TasksListState extends State<TasksList> {
+  Future<List<dynamic>> futureTask;
+
+  @override
+  void initState() {
+    super.initState();
+    print("WIDGET DATAAAA");
+    print(widget.existingSkills);
+    futureTask = fetchTasks([["python"],["javascript"]]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
