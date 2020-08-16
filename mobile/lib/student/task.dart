@@ -3,7 +3,14 @@ import 'package:upskillindo/student/studentHomeState.dart';
 import 'package:upskillindo/theme.dart';
 
 class TaskPage extends StatefulWidget {
-  TaskPage({Key key, this.taskTitle, this.taskDescription, this.taskCapacity, this.taskSkills, this.taskRemainingCapacity}) : super(key:key);
+  TaskPage(
+      {Key key,
+      this.taskTitle,
+      this.taskDescription,
+      this.taskCapacity,
+      this.taskSkills,
+      this.taskRemainingCapacity})
+      : super(key: key);
   final String taskTitle;
   final String taskDescription;
   final String taskSkills;
@@ -26,25 +33,39 @@ class _TaskPageState extends State<TaskPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Description\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            Text('${widget.taskDescription}\n', style: TextStyle(fontSize: 18, color: Colors.black)),
-            SizedBox(height: 20,),
-            Text('Skills Used\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            Text(widget.taskSkills, style: TextStyle(fontSize: 18, color: Colors.black)),
-            SizedBox(height: 20,),
-            Text('Capacity\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            Text( "${widget.taskRemainingCapacity} / ${widget.taskCapacity}", style: TextStyle(fontSize: 18, color: Colors.black)),
+            Text('Description\n',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text('${widget.taskDescription}\n',
+                style: TextStyle(fontSize: 18, color: Colors.black)),
+            SizedBox(
+              height: 20,
+            ),
+            Text('Skills Used\n',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text(widget.taskSkills,
+                style: TextStyle(fontSize: 18, color: Colors.black)),
+            SizedBox(
+              height: 20,
+            ),
+            Text('Capacity\n',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text("${widget.taskRemainingCapacity} / ${widget.taskCapacity}",
+                style: TextStyle(fontSize: 18, color: Colors.black)),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: (){
+        onPressed: () {
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) =>
-                  StudentHomePage()
-              )
-          );
+              MaterialPageRoute(
+                  builder: (context) => StudentHomePage(
+                        taskTitle: widget.taskTitle,
+                        taskCapacity: widget.taskCapacity,
+                        taskDescription: widget.taskDescription,
+                        taskSkills: widget.taskSkills,
+                        taskRemainingCapacity: widget.taskRemainingCapacity,
+                      )));
         },
         icon: Icon(Icons.add),
         label: Text('Pick Task'),

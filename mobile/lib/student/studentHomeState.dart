@@ -5,8 +5,20 @@ import 'package:upskillindo/student/studentProfile.dart';
 const String page1 = "Tasks";
 const String page2 = "Profile";
 
-
 class StudentHomePage extends StatefulWidget {
+  StudentHomePage(
+      {Key key,
+      this.taskTitle,
+      this.taskDescription,
+      this.taskCapacity,
+      this.taskSkills,
+      this.taskRemainingCapacity})
+      : super(key: key);
+  final String taskTitle;
+  final String taskDescription;
+  final String taskSkills;
+  final int taskCapacity;
+  final int taskRemainingCapacity;
   @override
   _StudentHomePageState createState() => _StudentHomePageState();
 }
@@ -22,7 +34,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
   @override
   void initState() {
     super.initState();
-    _page1 = TaskListPage();
+    _page1 = TaskListPage(
+      taskTitle: widget.taskTitle,
+      taskDescription: widget.taskDescription,
+      taskSkills: widget.taskSkills,
+      taskRemainingCapacity: widget.taskRemainingCapacity,
+      taskCapacity: widget.taskCapacity,
+    );
     _page2 = StudentProfile();
 
     _pages = [_page1, _page2];
@@ -56,7 +74,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
               title: Text(page2),
             ),
           ],
-        )
-    );
+        ));
   }
 }

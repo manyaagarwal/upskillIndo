@@ -68,7 +68,7 @@ def google():
 
 #For a single search
 def YoutubeTopResults(SearchQuery):
-    api_key = 'AIzaSyCqJtZP_DMNwjU35ZWSQanTF1xIbr8FvH4'
+    api_key = 'AIzaSyDb0XnLfPlifj9w9JxGNvTA6Ufe7Di5Uq8'
 
     youtube = build('youtube', 'v3', developerKey=api_key)
     query=SearchQuery

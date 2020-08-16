@@ -1,4 +1,4 @@
-#Sun Aug 16 05:30:29 IST 2020
+#Sun Aug 16 06:12:06 IST 2020
 base.0=/home/manya/hackathons/upskillIndo/mobile/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

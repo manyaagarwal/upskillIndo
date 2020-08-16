@@ -16,7 +16,7 @@ Future<List<dynamic>> fetchTasks(skills) async{
     }),
   );
   if(response.statusCode == 200){
-    print(json.decode(response.body));
+    return json.decode(response.body);
   } else {
     throw Exception("Failed to load data");
   }
@@ -32,13 +32,13 @@ class TasksList extends StatefulWidget {
 
 class _TasksListState extends State<TasksList> {
   Future<List<dynamic>> futureTask;
-
+  List<List<String>> skills= [];
   @override
   void initState() {
     super.initState();
-    print("WIDGET DATAAAA");
-    print(widget.existingSkills);
-    futureTask = fetchTasks([["python"],["javascript"]]);
+    skills.add(widget.existingSkills);
+    skills.add(widget.skillsToAcquire);
+    futureTask = fetchTasks(skills);
   }
 
   @override
@@ -48,6 +48,7 @@ class _TasksListState extends State<TasksList> {
           title: Text('Pick Tasks'),
         ),
         body: Container(
+//          height: MediaQuery.of(context).size.height/1.5,
           padding: EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
@@ -60,41 +61,48 @@ class _TasksListState extends State<TasksList> {
                 ),
               ),
               Container(
+                height: MediaQuery.of(context).size.height/2,
+                width: MediaQuery.of(context).size.width/1.2,
                 child: FutureBuilder<List<dynamic>>(
                   future: futureTask,
                   builder: (context,snapshot){
                     if(snapshot.hasData){
-                      return Text("has data");
+                      return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index){
+                            return(
+                                Card(
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(10))
+                                  ),
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(builder: (context) =>
+                                              TaskPage(
+                                                taskCapacity: snapshot.data[index]["capacity"], taskRemainingCapacity: snapshot.data[index]["remainingCapacity"],
+                                                taskDescription: snapshot.data[index]["description"], taskSkills: snapshot.data[index]["skills"].join(','), taskTitle: snapshot.data[index]["title"],)
+                                          )
+                                      );
+                                    },
+                                    child: ListTile(
+                                      leading: Icon(Icons.group_work, size:30),
+                                      title: Text(snapshot.data[index]["title"]),
+                                      subtitle: Text(
+                                          'Company Id: ${snapshot.data[index]["organisationId"]} \nSkills: ${snapshot.data[index]["skills"].join(',')}'
+                                      ),
+                                      isThreeLine: true,
+                                    ),
+                                  ),
+                                )
+                            );
+                          });
                     } else if (snapshot.hasError){
                       return Text("${snapshot.error}");
                   } return CircularProgressIndicator();
                   }
-                ),
-              ),
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                child: InkWell(
-                  onTap: (){
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) =>
-                          TaskPage(
-                            taskCapacity: 3, taskRemainingCapacity: 1,
-                            taskDescription: "Description text in detail", taskSkills: "Skills needed for this task", taskTitle: "Task title",)
-                      )
-                    );
-                  },
-                  child: ListTile(
-                    leading: FlutterLogo(size: 72.0),
-                    title: Text('Task title'),
-                    subtitle: Text(
-                        'Company Name \nSkills: Skills List'
-                    ),
-                    isThreeLine: true,
-                  ),
                 ),
               ),
               SizedBox(height: 50,),

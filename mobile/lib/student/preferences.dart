@@ -6,7 +6,6 @@ import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:upskillindo/student/tasks.dart';
 import 'package:upskillindo/theme.dart';
 
-
 class StudentPreferences extends StatefulWidget {
   @override
   _StudentPreferencesState createState() => _StudentPreferencesState();
@@ -17,10 +16,14 @@ class _StudentPreferencesState extends State<StudentPreferences> {
   int _value = 1;
   List<String> existingSkills = [];
   List<String> skillsToAcquire = [];
-  var _categories = ["Category A", "Category B", "Category C"];
-  String _selectedCategory = "Category A";
+  var _categories = [
+    "Web Development",
+    "Artificial Intelligence",
+    "Graphic Designing"
+  ];
+  String _selectedCategory = "Artificial Intelligence";
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text('Preferences'),
       ),
@@ -34,9 +37,10 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                 builder: (FormFieldState<String> state) {
                   return InputDecorator(
                     decoration: InputDecoration(
-                        errorStyle: TextStyle(color: Colors.redAccent, fontSize: 16.0),
-                        hintText: 'Please select category',
-                        border: OutlineInputBorder(),
+                      errorStyle:
+                          TextStyle(color: Colors.redAccent, fontSize: 16.0),
+                      hintText: 'Please select category',
+                      border: OutlineInputBorder(),
                     ),
                     isEmpty: _selectedCategory == '',
                     child: DropdownButtonHideUnderline(
@@ -60,7 +64,9 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                   );
                 },
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               FlutterTagging(
                 textFieldDecoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -69,7 +75,7 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                 addButtonWidget: _buildAddButton(),
                 chipsColor: MaterialColor(0XFF98BEE0, accentColor),
                 chipsFontColor: Colors.white,
-                deleteIcon: Icon(Icons.cancel,color: Colors.white),
+                deleteIcon: Icon(Icons.cancel, color: Colors.white),
                 chipsPadding: EdgeInsets.all(2.0),
                 chipsFontSize: 14.0,
                 chipsSpacing: 5.0,
@@ -80,11 +86,13 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                 onChanged: (result) {
                   setState(() {
                     var length = result.length;
-                    existingSkills.add(result[length-1]["name"]);
+                    existingSkills.add(result[length - 1]["name"]);
                   });
                 },
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               FlutterTagging(
                 textFieldDecoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -93,7 +101,7 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                 addButtonWidget: _buildAddButton(),
                 chipsColor: MaterialColor(0XFF98BEE0, accentColor),
                 chipsFontColor: Colors.white,
-                deleteIcon: Icon(Icons.cancel,color: Colors.white),
+                deleteIcon: Icon(Icons.cancel, color: Colors.white),
                 chipsPadding: EdgeInsets.all(2.0),
                 chipsFontSize: 14.0,
                 chipsSpacing: 5.0,
@@ -104,22 +112,27 @@ class _StudentPreferencesState extends State<StudentPreferences> {
                 onChanged: (result) {
                   setState(() {
                     var length = result.length;
-                    skillsToAcquire.add(result[length-1]["name"]);
+                    skillsToAcquire.add(result[length - 1]["name"]);
                   });
                 },
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               RaisedButton.icon(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                onPressed: (){
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => TasksList(existingSkills: existingSkills, skillsToAcquire: skillsToAcquire,)),
+                    MaterialPageRoute(
+                        builder: (context) => TasksList(
+                              existingSkills: existingSkills,
+                              skillsToAcquire: skillsToAcquire,
+                            )),
                   );
                 },
-                color:MaterialColor(0XFFEE7A7A,primaryColor),
+                color: MaterialColor(0XFFEE7A7A, primaryColor),
                 textColor: Colors.white,
                 icon: Icon(Icons.widgets),
                 label: Text("Select Tasks"),
@@ -137,7 +150,7 @@ Widget _buildAddButton() {
     padding: EdgeInsets.all(8.0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(20.0)),
-      color:MaterialColor(0XFF98BEE0, accentColor),
+      color: MaterialColor(0XFF98BEE0, accentColor),
     ),
     child: Row(
       mainAxisSize: MainAxisSize.min,

@@ -17,14 +17,19 @@ class _SubmissionState extends State<Submission> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text('Deliverables', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-            Divider(thickness: 2,),
+            Text(
+              'Deliverables',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Divider(
+              thickness: 2,
+            ),
             //TODO: Add grid
           ],
         ),
       ),
       bottomNavigationBar: RaisedButton(
-        onPressed: (){},
+        onPressed: () {},
         color: MaterialColor(0XFF98BEE0, accentColor),
         child: Text("Give Feedback"),
       ),
