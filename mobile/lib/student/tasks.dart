@@ -59,6 +59,18 @@ class _TasksListState extends State<TasksList> {
                   ),
                 ),
               ),
+              Container(
+                child: FutureBuilder<List<dynamic>>(
+                  future: futureTask,
+                  builder: (context,snapshot){
+                    if(snapshot.hasData){
+                      return Text("has data");
+                    } else if (snapshot.hasError){
+                      return Text("${snapshot.error}");
+                  } return CircularProgressIndicator();
+                  }
+                ),
+              ),
               Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
@@ -75,74 +87,6 @@ class _TasksListState extends State<TasksList> {
                       )
                     );
                   },
-                  child: ListTile(
-                    leading: FlutterLogo(size: 72.0),
-                    title: Text('Task title'),
-                    subtitle: Text(
-                        'Company Name \nSkills: Skills List'
-                    ),
-                    isThreeLine: true,
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                child: InkWell(
-                  onTap: (){},
-                  child: ListTile(
-                    leading: FlutterLogo(size: 72.0),
-                    title: Text('Task title'),
-                    subtitle: Text(
-                        'Company Name \nSkills: Skills List'
-                    ),
-                    isThreeLine: true,
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                child: InkWell(
-                  onTap: (){},
-                  child: ListTile(
-                    leading: FlutterLogo(size: 72.0),
-                    title: Text('Task title'),
-                    subtitle: Text(
-                        'Company Name \nSkills: Skills List'
-                    ),
-                    isThreeLine: true,
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                child: InkWell(
-                  onTap: (){},
-                  child: ListTile(
-                    leading: FlutterLogo(size: 72.0),
-                    title: Text('Task title'),
-                    subtitle: Text(
-                        'Company Name \nSkills: Skills List'
-                    ),
-                    isThreeLine: true,
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                child: InkWell(
-                  onTap: (){},
                   child: ListTile(
                     leading: FlutterLogo(size: 72.0),
                     title: Text('Task title'),
