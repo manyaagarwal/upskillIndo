@@ -150,7 +150,7 @@ def home(): # route handler function
     sorted_tasks = sorted(sorted_tasks, key=lambda x: ratings[x], reverse=True)
     sorted_tasks = sorted(sorted_tasks, key=lambda x: len(existing.intersection(tasks[x])), reverse=False)
     sorted_tasks = sorted(sorted_tasks, key=lambda x: len(to_acquire.intersection(tasks[x])), reverse=True)
-
-    return jsonify(sorted_tasks), 200
+    sorted_task_data = [tasks_ref.document(i).get().to_dict() for i in sorted_tasks]
+    return jsonify(sorted_task_data), 200
 
 app.run(debug = True)
